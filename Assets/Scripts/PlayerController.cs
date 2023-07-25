@@ -33,7 +33,6 @@ public class PlayerController : MonoBehaviour
                 return;
             }
             NextPos = Positions[NextPosIndex];
-            Debug.Log("vao if");
         }
         else
         {
@@ -50,6 +49,5 @@ public class PlayerController : MonoBehaviour
     {
         Quaternion lookRotation = Quaternion.LookRotation(NextPos.position - transform.position);
         transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, 0.1f);
-        Debug.Log("lerp" + transform.rotation);
     }
 }

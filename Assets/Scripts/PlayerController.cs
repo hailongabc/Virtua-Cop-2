@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform[] Positions;
     [SerializeField] Transform[] EnemyLookAt;
     [SerializeField] float ObjectSpeed;
+    [SerializeField] private Camera mainCamera;
 
     int NextPosIndex;
     Transform NextPos;
@@ -50,4 +51,6 @@ public class PlayerController : MonoBehaviour
         Quaternion lookRotation = Quaternion.LookRotation(NextPos.position - transform.position);
         transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, 0.1f);
     }
+
+   
 }

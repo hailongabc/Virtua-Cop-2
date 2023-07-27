@@ -69,7 +69,6 @@ public class TouchController : MonoBehaviour
         {
             Debug.Log("hold");
             Shoot();
-
         }
         if (Input.GetKeyDown(KeyCode.Mouse1) && bulletsLeft < magazineSize && !reloading) Reload();
 

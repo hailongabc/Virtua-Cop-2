@@ -82,7 +82,8 @@ public class TouchController : MonoBehaviour
     void Shoot()
     {
         readyToShoot = false;
-
+        Debug.Log("shot");
+        //muzzleFlash.GetComponent<ParticleSystem>.
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = 100f;
         mousePos = mainCamera.ScreenToWorldPoint(mousePos);
@@ -94,7 +95,7 @@ public class TouchController : MonoBehaviour
         }
 
 
-        Instantiate(muzzleFlash, attachPoint.position, Quaternion.identity);
+        //Instantiate(muzzleFlash, attachPoint.position, Quaternion.identity);
 
         bulletsLeft--;
         bulletsShot--;

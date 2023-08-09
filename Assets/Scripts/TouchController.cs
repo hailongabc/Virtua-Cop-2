@@ -21,7 +21,10 @@ public class TouchController : MonoBehaviour
     bool shooting, readyToShoot, reloading;
 
     //Graphics
-    public GameObject muzzleFlash, bulletHoleGraphic;
+    public GameObject  bulletHoleGraphic;
+
+    public ParticleSystem muzzleFlash;
+
 
     //Reference
     public Transform attachPoint;
@@ -93,7 +96,7 @@ public class TouchController : MonoBehaviour
         {
             hit.transform.GetChild(1).GetComponent<Renderer>().material = materialRed;
         }
-
+        muzzleFlash.Play();
 
         //Instantiate(muzzleFlash, attachPoint.position, Quaternion.identity);
 

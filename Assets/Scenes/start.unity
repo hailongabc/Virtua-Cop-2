@@ -423,7 +423,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 152926285}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.31, y: -0.205, z: -68.03}
+  m_LocalPosition: {x: -11.31, y: -0.215, z: -68.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2398,14 +2398,14 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 943247167}
   m_SourcePrefab: {fileID: 100100000, guid: a6e1b293f7ed5584fa548ddde966e03e, type: 3}
---- !u!1 &571674253 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1743301284569550, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
-  m_PrefabInstance: {fileID: 1884232048}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &571674256 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4300533007854612, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
+  m_PrefabInstance: {fileID: 1884232048}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &571674258 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 198234346748616026, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
   m_PrefabInstance: {fileID: 1884232048}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &582656546
@@ -8638,8 +8638,8 @@ MonoBehaviour:
   magazineSize: 0
   bulletPerTap: 0
   allowButtonHold: 0
-  muzzleFlash: {fileID: 571674253}
   bulletHoleGraphic: {fileID: 1012418099}
+  muzzleFlash: {fileID: 571674258}
   attachPoint: {fileID: 1853605489}
 --- !u!1001 &968670635
 PrefabInstance:
@@ -21068,6 +21068,10 @@ PrefabInstance:
     - target: {fileID: 4300533007854612, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 92.891
+      objectReference: {fileID: 0}
+    - target: {fileID: 198234346748616026, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
+      propertyPath: looping
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 198234346748616026, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
       propertyPath: lengthInSec

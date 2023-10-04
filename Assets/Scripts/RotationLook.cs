@@ -17,7 +17,7 @@ public class RotationLook : MonoBehaviour
         camCenter = cam.localRotation;
     }
 
-    void FixedUpdate()
+    void LateUpdate()
     {
         setY();
         setX();

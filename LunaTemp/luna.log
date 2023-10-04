@@ -1,0 +1,15 @@
+report@config:load 4.46
+Authorized using stored user info.
+report@account:authorize 7.22
+stderr: 'rm' is not recognized as an internal or external command,
+operable program or batch file.
+
+Exporting assets from Unity....
+
+Error: System.MissingMethodException, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+Method not found: void UnityEditor.Sprites.Packer.RebuildAtlasCacheIfNeeded(UnityEditor.BuildTarget)
+  at  . ⁏.  () [0x00012] in <9a5d9465b03e45f69dfea980228e1402>:0 
+  at  .  .  () [0x000be] in <9a5d9465b03e45f69dfea980228e1402>:0 
+Caused By: 
+Error: Exceptions was thrown!
+    at _0x38a61e.action (D:\luna\pipeline\Jakefile.js:6:3005911)

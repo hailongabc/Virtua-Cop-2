@@ -1,0 +1,46 @@
+{
+    "BuildID": "b318dfab-969e-47ea-a5ad-c9c4c52689c0",
+    "Command": "project:build",
+    "ProjectID": "82c889a7ed04464459172a345849bc6b",
+    "ProjectStateHash": "d16475531cece8e83cc7879914a9885383174f93b1da8b40c7386a4fdaac6763",
+    "StageCompletedAt": 2,
+    "EarliestFatalError": 0,
+    "StartTime": 1694054740918,
+    "EndTime": 1694054742732,
+    "PlaygroundUserID": 11394,
+    "OperatingSystem": "win32",
+    "TargetPlatform": "develop",
+    "UnityVersion": "2022.3.4f1",
+    "LunaVersion": "5.2.0",
+    "LogCount": 1,
+    "Logs": [
+        {
+            "LogID": "d306f28c-0a19-4551-aef4-2464ecd83414",
+            "Timestamp": 1694054742049,
+            "Stage": 1,
+            "Severity": 1,
+            "ErrorType": 0,
+            "ErrorCode": "LP1025",
+            "Description": "Unhandled Exception: Method not found: void UnityEditor.Sprites.Packer.RebuildAtlasCacheIfNeeded(UnityEditor.BuildTarget)",
+            "Details": [
+                "Exception: System.MissingMethodException : Method not found: void UnityEditor.Sprites.Packer.RebuildAtlasCacheIfNeeded(UnityEditor.BuildTarget)",
+                ""
+            ],
+            "DescriptionValues": [
+                "Method not found: void UnityEditor.Sprites.Packer.RebuildAtlasCacheIfNeeded(UnityEditor.BuildTarget)"
+            ],
+            "DetailsValues": [
+                "System.MissingMethodException",
+                "Method not found: void UnityEditor.Sprites.Packer.RebuildAtlasCacheIfNeeded(UnityEditor.BuildTarget)",
+                "  at  . ⁏.  () [0x00012] in <9a5d9465b03e45f69dfea980228e1402>:0 \r\n  at  .  .  () [0x000be] in <9a5d9465b03e45f69dfea980228e1402>:0 ",
+                ""
+            ],
+            "LogCount": 1,
+            "FilePath": "",
+            "LinePosition": 0,
+            "ClassName": "",
+            "MemberName": "",
+            "Order": 0
+        }
+    ]
+}

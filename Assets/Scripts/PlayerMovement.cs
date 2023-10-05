@@ -6,12 +6,14 @@ public class PlayerMovement : MonoBehaviour
 {
     public Camera normalCam;
     public float SprintModifier;
-    public float jumpForce; 
+    public float jumpForce;
+    public Transform GroundDetector;
+    public LayerMask Ground;
     [SerializeField] private float speed;
     private Rigidbody rb;
 
     float FOV;
-    float SprintFOVModifier = 1.5f;
+    float SprintFOVModifier = 1.2f;
     void Start()
     {
         FOV = normalCam.fieldOfView;
@@ -19,6 +21,20 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+    private void Update()
+    {
+        float h_move = Input.GetAxisRaw("Horizontal");
+        float v_move = Input.GetAxisRaw("Vertical");
+        bool sprint = Input.GetKey(KeyCode.LeftShift);
+        bool jump = Input.GetKeyDown(KeyCode.Space);
+
+        bool isGround = Physics.Raycast(GroundDetector.position, Vector3.down, 0.1f, Ground);
+        bool isJumping = jump & isGround;
+        if (isJumping)
+        {
+            rb.AddForce(Vector3.up * jumpForce);
+        }
+    }
     private void FixedUpdate()
     {
         float h_move = Input.GetAxisRaw("Horizontal");
@@ -26,16 +42,11 @@ public class PlayerMovement : MonoBehaviour
         bool sprint = Input.GetKey(KeyCode.LeftShift);
         bool jump = Input.GetKeyDown(KeyCode.Space);
 
-        bool isJumping = jump;
+        bool isGround = Physics.Raycast(GroundDetector.position, Vector3.down, 0.1f, Ground);
+        bool isJumping = jump & isGround;
         bool isPrinting = sprint & v_move > 0;
-
         Vector3 dir = new Vector3(h_move, 0f, v_move);
         dir.Normalize();
-
-        if (isJumping)
-        {
-            rb.AddForce(Vector3.up * jumpForce);
-        }
 
         float adjustedSpeed = speed;
         if (isPrinting)

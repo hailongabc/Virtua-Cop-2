@@ -52,7 +52,7 @@ public class RotationLook : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.LeftControl))
             {
                 CursorLocked = false;
             }
@@ -62,7 +62,7 @@ public class RotationLook : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.LeftControl))
             {
                 CursorLocked = true;
             }

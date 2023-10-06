@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         FOV = normalCam.fieldOfView;
-        Camera.main.enabled = false;
+        //Camera.main.enabled = false;
         rb = GetComponent<Rigidbody>();
     }
 

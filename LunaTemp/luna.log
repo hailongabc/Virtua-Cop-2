@@ -1,6 +1,7 @@
-report@config:load 4.46
-Authorized using stored user info.
-report@account:authorize 7.22
+report@config:load 4.10
+Found a stored user info, but it is no longer valid.
+Permissions were validated successfully.
+report@account:authorize 1490.77
 stderr: 'rm' is not recognized as an internal or external command,
 operable program or batch file.
 

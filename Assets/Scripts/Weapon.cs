@@ -8,6 +8,11 @@ public class Weapon : MonoBehaviour
     public Transform WeaponParent;
     private GameObject CurrentWeapon;
     private int this_index;
+
+    public GameObject BulleHolePf;
+    public LayerMask canBeShot;
+
+    private float currentCoolDown;
     void Start()
     {
         
@@ -22,6 +27,16 @@ public class Weapon : MonoBehaviour
         if (CurrentWeapon != null)
         {
         aim(Input.GetMouseButton(1));
+            if (Input.GetMouseButtonDown(0) && currentCoolDown <= 0)
+            {
+                Shoot();
+            }
+
+            CurrentWeapon.transform.localPosition = Vector3.Lerp(CurrentWeapon.transform.localPosition, Vector3.zero, Time.deltaTime * 10);
+            if(currentCoolDown > 0)
+            {
+                currentCoolDown -= Time.deltaTime;
+            }
         }
     }
 
@@ -52,4 +67,28 @@ public class Weapon : MonoBehaviour
             anchor.position = Vector3.Lerp(anchor.position, Status_hip.position, Time.deltaTime * LoadOut[this_index].AimSpeed);
         }
     }
+    void Shoot()
+    {
+        Transform t_cam = transform.Find("PlayerCamera");
+        RaycastHit hit = new RaycastHit();
+        if(Physics.Raycast(t_cam.position, t_cam.forward, out hit, 1000f, canBeShot))
+        {
+            GameObject NewHole = Instantiate(BulleHolePf, (hit.point + hit.normal), Quaternion.identity);
+
+            NewHole.transform.LookAt(hit.point + hit.normal);
+
+            Destroy(NewHole, 10f);
+        }
+
+        //giat len
+        CurrentWeapon.transform.Rotate(-LoadOut[this_index].Recoil, 0, 0);
+
+        //giat ve sau
+        CurrentWeapon.transform.position -= CurrentWeapon.transform.forward * LoadOut[this_index].KickBack;
+
+        currentCoolDown = LoadOut[this_index].FireRate;
+    }
+
+
+
 }

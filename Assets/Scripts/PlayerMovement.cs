@@ -9,6 +9,14 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce;
     public Transform GroundDetector;
     public LayerMask Ground;
+
+    public Transform weaponParent;
+    private Vector3 targetShakePosition;
+    private Vector3 weaponParentOrigin;
+
+    float idleShake;
+    float MovementShake;
+
     [SerializeField] private float speed;
     private Rigidbody rb;
 
@@ -19,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
         FOV = normalCam.fieldOfView;
         //Camera.main.enabled = false;
         rb = GetComponent<Rigidbody>();
+
+        weaponParentOrigin = weaponParent.localPosition;
     }
 
     private void Update()
@@ -33,6 +43,25 @@ public class PlayerMovement : MonoBehaviour
         if (isJumping)
         {
             rb.AddForce(Vector3.up * jumpForce);
+        }
+
+        if(h_move == 0 && v_move == 0)
+        {
+            Shaking(idleShake, 0.025f, 0.025f);
+            idleShake += Time.deltaTime;
+            weaponParent.localPosition = Vector3.Lerp(weaponParent.localPosition, targetShakePosition, Time.deltaTime *0.5f);
+        }
+        else if(!sprint)
+        {
+            Shaking(MovementShake, 0.035f, 0.035f);
+            MovementShake += Time.deltaTime * 3f;
+            weaponParent.localPosition = Vector3.Lerp(weaponParent.localPosition, targetShakePosition, Time.deltaTime * 1.5f);
+        }
+        else
+        {
+            Shaking(MovementShake, 0.15f, 0.15f);
+            MovementShake += Time.deltaTime * 7f;
+            weaponParent.localPosition = Vector3.Lerp(weaponParent.localPosition, targetShakePosition, Time.deltaTime * 2f);
         }
     }
     private void FixedUpdate()
@@ -64,4 +93,11 @@ public class PlayerMovement : MonoBehaviour
 
         rb.velocity = TargetVelocity;
     }
+
+    #region methods
+    void Shaking(float p_z, float x_intensity, float y_intensity) 
+    {
+        targetShakePosition = weaponParentOrigin + new Vector3(Mathf.Cos(p_z) * x_intensity, Mathf.Sin(p_z * 2f) * y_intensity, 0);
+    }
+    #endregion
 }

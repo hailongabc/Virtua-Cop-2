@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviourPunCallbacks
 {
     public Camera normalCam;
     public float SprintModifier;
@@ -33,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (!photonView.IsMine) return;
         float h_move = Input.GetAxisRaw("Horizontal");
         float v_move = Input.GetAxisRaw("Vertical");
         bool sprint = Input.GetKey(KeyCode.LeftShift);
@@ -66,6 +68,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        if (!photonView.IsMine) return;
         float h_move = Input.GetAxisRaw("Horizontal");
         float v_move = Input.GetAxisRaw("Vertical");
         bool sprint = Input.GetKey(KeyCode.LeftShift);

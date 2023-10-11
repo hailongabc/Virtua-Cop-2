@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class RotationLook : MonoBehaviour
+public class RotationLook : MonoBehaviourPunCallbacks
 {
     public static bool CursorLocked = true;
     public Transform player;
@@ -11,14 +12,18 @@ public class RotationLook : MonoBehaviour
     public float YSensivity;
     public float MaxAngle;
     private Quaternion camCenter;
+    public GameObject CamParents;
+    public GameObject parentCam;
 
     void Start()
     {
+        CamParents.SetActive(photonView.IsMine);
         camCenter = cam.localRotation;
     }
 
     void LateUpdate()
     {
+        if (!photonView.IsMine) return;
         setY();
         setX();
         UpdateCursorLock();

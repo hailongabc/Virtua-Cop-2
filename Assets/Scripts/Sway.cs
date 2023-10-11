@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class Sway : MonoBehaviour
+public class Sway : MonoBehaviourPunCallbacks
 {
     public float Instensity;
     public float Smooth;
@@ -14,6 +15,7 @@ public class Sway : MonoBehaviour
 
     void Update()
     {
+        if (!photonView.IsMine) return;
         UpdateSway();
 
     }

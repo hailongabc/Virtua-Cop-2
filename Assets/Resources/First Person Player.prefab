@@ -231,7 +231,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   weaponParent: {fileID: 80265408410989554}
-  speed: 100
+  speed: 300
 --- !u!114 &7777792226398697479
 MonoBehaviour:
   m_ObjectHideFlags: 0

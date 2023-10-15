@@ -12,12 +12,12 @@ public class RotationLook : MonoBehaviourPunCallbacks
     public float YSensivity;
     public float MaxAngle;
     private Quaternion camCenter;
-    public GameObject CamParents;
-    public GameObject parentCam;
+    public Camera CamParents;
 
     void Start()
     {
-        CamParents.SetActive(photonView.IsMine);
+        //CanvasManager.ins.canvas.worldCamera = CamParents;
+        CamParents.gameObject.SetActive(photonView.IsMine);
         camCenter = cam.localRotation;
     }
 

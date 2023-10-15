@@ -5,54 +5,94 @@ using Photon.Pun;
 
 public class Weapon : MonoBehaviourPunCallbacks
 {
+    public static Weapon ins;
     public Gun[] LoadOut;
     public Transform WeaponParent;
-    private GameObject CurrentWeapon;
+    public Transform DropPoint;
+    [SerializeField] private GameObject CurrentWeapon;
     private int this_index;
 
     public GameObject BulleHolePf;
     public LayerMask canBeShot;
 
     private float currentCoolDown;
-    void Start()
+    bool isShot = false;
+    private void Awake()
     {
-        
+        ins = this;
     }
+
 
     void Update()
     {
         if (!photonView.IsMine) return;
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
+            Debug.Log("aa");
             Equip(0);
         }
         if (CurrentWeapon != null)
         {
-        aim(Input.GetMouseButton(1));
-            if (Input.GetMouseButtonDown(0) && currentCoolDown <= 0)
+            aim(Input.GetMouseButton(1));
+
+            if (Input.GetKeyDown(KeyCode.G))
             {
-                Shoot();
+                for (int i = 0; i < GameManager.ins.listGun.Count; i++)
+                {
+                    if (CurrentWeapon.GetComponent<GunInGame>().guntype == GameManager.ins.listGun[i].guntype)
+                    {
+                        Debug.Log(transform.position + "asd");
+                        GameObject gun = Instantiate(GameManager.ins.listGun[i].gameObject, DropPoint.position, DropPoint.rotation);
+                        gun.GetComponent<GunInGame>().Init(CurrentWeapon.GetComponent<GunInGame>().CurrentAmmo, CurrentWeapon.GetComponent<GunInGame>().AmmoLeft);
+                        gun.GetComponent<Sway>().isPickUp = false;
+                        gun.GetComponent<BoxCollider>().enabled = true;
+                    }
+                }
+                Destroy(CurrentWeapon);
+            }
+            if (Input.GetMouseButton(0))
+            {
+                if (CurrentWeapon.GetComponent<GunInGame>().CheckBullet())
+                {
+
+                    Debug.Log("count");
+                    if (!isShot)
+                    {
+                        StartCoroutine(Shoot());
+
+                    }
+                }
+                else
+                {
+                    ReloadBullet();
+                }
             }
 
             CurrentWeapon.transform.localPosition = Vector3.Lerp(CurrentWeapon.transform.localPosition, Vector3.zero, Time.deltaTime * 10);
-            if(currentCoolDown > 0)
+            if (currentCoolDown > 0)
             {
                 currentCoolDown -= Time.deltaTime;
+            }
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                ReloadBullet();
             }
         }
     }
 
     void Equip(int index)
     {
-        if(CurrentWeapon != null)
+        if (CurrentWeapon != null)
         {
             Destroy(CurrentWeapon);
         }
+
         this_index = index;
         GameObject newWeapon = Instantiate(LoadOut[index].prefabs, WeaponParent.position, WeaponParent.rotation, WeaponParent) as GameObject;
         newWeapon.transform.localPosition = Vector3.zero;
         newWeapon.transform.localEulerAngles = Vector3.zero;
-
+        newWeapon.GetComponent<Sway>().isPickUp = true;
         CurrentWeapon = newWeapon;
     }
     void aim(bool p_aim)
@@ -69,28 +109,61 @@ public class Weapon : MonoBehaviourPunCallbacks
             anchor.position = Vector3.Lerp(anchor.position, Status_hip.position, Time.deltaTime * LoadOut[this_index].AimSpeed);
         }
     }
-    void Shoot()
+    IEnumerator Shoot()
     {
+        isShot = true;
+        yield return new WaitForSeconds(LoadOut[this_index].FireRate);
         Transform t_cam = transform.Find("PlayerCamera");
         RaycastHit hit = new RaycastHit();
-        if(Physics.Raycast(t_cam.position, t_cam.forward, out hit, 1000f, canBeShot))
-        {
-            GameObject NewHole = Instantiate(BulleHolePf, (hit.point + hit.normal), Quaternion.identity);
+        GameObject bullet = Instantiate(GameManager.ins.bullet.gameObject, CurrentWeapon.GetComponent<Sway>().PointBullet.position, t_cam.rotation);
+        bullet.GetComponent<Bullet>().damage = LoadOut[this_index].damage;
+        CurrentWeapon.GetComponent<GunInGame>().DecreaseBullet();
 
-            NewHole.transform.LookAt(hit.point + hit.normal);
 
-            Destroy(NewHole, 10f);
-        }
+        /* if (Physics.Raycast(t_cam.position, t_cam.forward, out hit, 1000f, canBeShot))
+         {
+             GameObject NewHole = Instantiate(BulleHolePf, (hit.point + hit.normal), Quaternion.identity);
 
+             NewHole.transform.LookAt(hit.point + hit.normal);
+
+             Destroy(NewHole, 10f);
+         }
+ */
         //giat len
         CurrentWeapon.transform.Rotate(-LoadOut[this_index].Recoil, 0, 0);
 
         //giat ve sau
         CurrentWeapon.transform.position -= CurrentWeapon.transform.forward * LoadOut[this_index].KickBack;
 
+        isShot = false;
         currentCoolDown = LoadOut[this_index].FireRate;
     }
 
+    void ReloadBullet()
+    {
 
+        StartCoroutine(CurrentWeapon.GetComponent<GunInGame>().ReloadBullet());
+
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Gun"))
+        {
+            switch (other.GetComponent<GunInGame>().guntype)
+            {
+                case GunType.pistol:
+                    other.GetComponent<BoxCollider>().enabled = false;
+                    Equip(0);
+                    Destroy(other.gameObject);
+                    Debug.Log("pistol");
+                    break;
+                case GunType.akm:
+
+                    break;
+            }
+
+
+        }
+    }
 
 }

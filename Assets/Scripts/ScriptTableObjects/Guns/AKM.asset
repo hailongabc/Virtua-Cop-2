@@ -10,16 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 03d310902297a9147ade549235aa4718, type: 3}
-  m_Name: Pistol
+  m_Name: AKM
   m_EditorClassIdentifier: 
   Name: Pistol
-  FireRate: 0.5
+  FireRate: 0.15
   Recoil: 10
   KickBack: 0.15
   damage: 15
   prefabs: {fileID: 5036366275854860706, guid: ff3c2e2091d62d545a3854b61ffe0417, type: 3}
   AimSpeed: 20
   PointBullet: {fileID: 0}
-  TotalBullet: 7
-  MaxBullet: 21
-  TimeReload: 3

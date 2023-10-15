@@ -7,7 +7,9 @@ public class Sway : MonoBehaviourPunCallbacks
 {
     public float Instensity;
     public float Smooth;
+    public bool isPickUp = false;
     private Quaternion origi_rotation;
+    public Transform PointBullet;
     void Start()
     {
         origi_rotation = transform.localRotation; 
@@ -15,8 +17,11 @@ public class Sway : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if (!photonView.IsMine) return;
+        // if (!photonView.IsMine) return;
+        if (isPickUp)
+        {
         UpdateSway();
+        }
 
     }
 

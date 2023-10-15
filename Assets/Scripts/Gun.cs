@@ -9,6 +9,11 @@ public class Gun : ScriptableObject
     public float FireRate;
     public float Recoil;
     public float KickBack;
+    public float damage;
     public GameObject prefabs;
     public float AimSpeed;
+    public Transform PointBullet;
+    public float TotalBullet;
+    public float MaxBullet;
+    public float TimeReload;
 }

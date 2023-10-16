@@ -11,6 +11,7 @@ public class Bullet : MonoBehaviour
     protected TrailRenderer Trail;
     [SerializeField]
     private Renderer Renderer;
+    public ParticleSystem BulletImpact;
     private bool IsDisabling = false;
     protected const string DO_DISABLE_METHOD_NAME = "DoDisable";
     private void Awake()
@@ -37,9 +38,10 @@ public class Bullet : MonoBehaviour
             other.GetComponentInParent<TestHuman1>().getShotInBody(damage);
             Destroy(gameObject);
         }
-        else
+        else if(other.CompareTag("wall"))
         {
             Destroy(gameObject);
+            BulletImpact.Play();
         }
         Disable();
 

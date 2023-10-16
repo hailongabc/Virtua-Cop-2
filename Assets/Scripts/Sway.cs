@@ -9,7 +9,6 @@ public class Sway : MonoBehaviourPunCallbacks
     public float Smooth;
     public bool isPickUp = false;
     private Quaternion origi_rotation;
-    public Transform PointBullet;
     void Start()
     {
         origi_rotation = transform.localRotation; 

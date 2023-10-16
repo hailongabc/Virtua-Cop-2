@@ -37,9 +37,12 @@ public class Weapon : MonoBehaviourPunCallbacks
                     {
                         GameObject gun = Instantiate(GameManager.ins.listGun[i].gameObject, DropPoint.position, DropPoint.rotation);
                         gun.GetComponent<GunInGame>().Init(CurrentWeapon.GetComponent<GunInGame>().CurrentAmmo, CurrentWeapon.GetComponent<GunInGame>().AmmoLeft);
+                        Debug.Log("current " + gun.GetComponent<GunInGame>().CurrentAmmo);
+                        Debug.Log("left " + gun.GetComponent<GunInGame>().AmmoLeft);
                         gun.GetComponent<Sway>().isPickUp = false;
+                        gun.GetComponent<Rigidbody>().useGravity = true;
                         gun.GetComponent<BoxCollider>().enabled = true;
-                        PlayerUI.ins.txtBullet.text = "0/0";
+                        PlayerUI.ins.txtBullet.gameObject.SetActive(false);
                     }
                 }
                 Destroy(CurrentWeapon);
@@ -49,46 +52,38 @@ public class Weapon : MonoBehaviourPunCallbacks
             {
                 if (CurrentWeapon.GetComponent<GunInGame>().CheckBullet())
                 {
-
-                    if (!isShot)
-                    {
-                        StartCoroutine(Shoot());
-
-                    }
+                  StartCoroutine(CurrentWeapon.GetComponent<GunInGame>().Shoot());
                 }
                 else
                 {
                     ReloadBullet();
                 }
             }
-            if(CurrentWeapon != null)
+            if (CurrentWeapon != null)
             {
-            CurrentWeapon.transform.localPosition = Vector3.Lerp(CurrentWeapon.transform.localPosition, Vector3.zero, Time.deltaTime * 10);
+                CurrentWeapon.transform.localPosition = Vector3.Lerp(CurrentWeapon.transform.localPosition, Vector3.zero, Time.deltaTime * 10);
             }
-            if (currentCoolDown > 0)
-            {
-                currentCoolDown -= Time.deltaTime;
-            }
-
             if (Input.GetKeyDown(KeyCode.R))
             {
                 ReloadBullet();
             }
         }
     }
-    void PickUpGun(string GunType)
+    void PickUpGun(GunType gunType, GunInGame dropGun)
     {
         if (CurrentWeapon != null) return;
         for (int i = 0; i < GameManager.ins.listGun.Count; i++)
         {
-            if (GameManager.ins.listGun[i].guntype.ToString() == GunType)
+            if (GameManager.ins.listGun[i].guntype == gunType)
             {
                 GameObject gun = Instantiate(GameManager.ins.listGun[i].gameObject, WeaponParent.position, WeaponParent.rotation, WeaponParent);
                 gun.transform.localPosition = Vector3.zero;
                 gun.transform.localEulerAngles = Vector3.zero;
                 gun.GetComponent<Sway>().isPickUp = true;
                 gun.GetComponent<BoxCollider>().enabled = false;
+                gun.GetComponent<Rigidbody>().useGravity = false;
                 CurrentWeapon = gun;
+                CurrentWeapon.GetComponent<GunInGame>().Init(dropGun.CurrentAmmo, dropGun.AmmoLeft);
             }
         }
 
@@ -122,36 +117,36 @@ public class Weapon : MonoBehaviourPunCallbacks
             anchor.position = Vector3.Lerp(anchor.position, Status_hip.position, Time.deltaTime * LoadOut[this_index].AimSpeed);
         }
     }
-    IEnumerator Shoot()
-    {
-        isShot = true;
-        yield return new WaitForSeconds(LoadOut[this_index].FireRate);
-        Transform t_cam = transform.Find("PlayerCamera");
-        //RaycastHit hit = new RaycastHit();
-        GameObject bullet = Instantiate(GameManager.ins.bullet.gameObject, CurrentWeapon.GetComponent<Sway>().PointBullet.position, t_cam.rotation);
-        bullet.GetComponent<Bullet>().damage = LoadOut[this_index].damage;
-        CurrentWeapon.GetComponent<GunInGame>().DecreaseBullet();
+ //   IEnumerator Shoot()
+ //   {
+ //       isShot = true;
+ //       yield return new WaitForSeconds(LoadOut[this_index].FireRate);
+ //       Transform t_cam = transform.Find("PlayerCamera");
+ //       //RaycastHit hit = new RaycastHit();
+ //       GameObject bullet = Instantiate(GameManager.ins.bullet.gameObject, CurrentWeapon.GetComponent<Sway>().PointBullet.position, t_cam.rotation);
+ //       bullet.GetComponent<Bullet>().damage = LoadOut[this_index].damage;
+ //       CurrentWeapon.GetComponent<GunInGame>().DecreaseBullet();
 
-        
 
-        /* if (Physics.Raycast(t_cam.position, t_cam.forward, out hit, 1000f, canBeShot))
-         {
-             GameObject NewHole = Instantiate(BulleHolePf, (hit.point + hit.normal), Quaternion.identity);
 
-             NewHole.transform.LookAt(hit.point + hit.normal);
+ //       /* if (Physics.Raycast(t_cam.position, t_cam.forward, out hit, 1000f, canBeShot))
+ //        {
+ //            GameObject NewHole = Instantiate(BulleHolePf, (hit.point + hit.normal), Quaternion.identity);
 
-             Destroy(NewHole, 10f);
-         }
- */
-        //giat len
-        CurrentWeapon.transform.Rotate(-LoadOut[this_index].Recoil, 0, 0);
+ //            NewHole.transform.LookAt(hit.point + hit.normal);
 
-        //giat ve sau
-        CurrentWeapon.transform.position -= CurrentWeapon.transform.forward * LoadOut[this_index].KickBack;
+ //            Destroy(NewHole, 10f);
+ //        }
+ //*/
+ //       //giat len
+ //       CurrentWeapon.transform.Rotate(-LoadOut[this_index].Recoil, 0, 0);
 
-        isShot = false;
-        currentCoolDown = LoadOut[this_index].FireRate;
-    }
+ //       //giat ve sau
+ //       CurrentWeapon.transform.position -= CurrentWeapon.transform.forward * LoadOut[this_index].KickBack;
+
+ //       isShot = false;
+ //       currentCoolDown = LoadOut[this_index].FireRate;
+ //   }
 
     void ReloadBullet()
     {
@@ -165,12 +160,12 @@ public class Weapon : MonoBehaviourPunCallbacks
             {
                 case GunType.pistol:
                     if (CurrentWeapon != null) return;
-                    PickUpGun(GunType.pistol.ToString());
+                    PickUpGun(GunType.pistol, other.GetComponent<GunInGame>());
                     Destroy(other.gameObject);
                     break;
                 case GunType.akm:
                     if (CurrentWeapon != null) return;
-                    PickUpGun(GunType.akm.ToString());
+                    PickUpGun(GunType.akm, other.GetComponent<GunInGame>());
                     Destroy(other.gameObject);
                     break;
             }

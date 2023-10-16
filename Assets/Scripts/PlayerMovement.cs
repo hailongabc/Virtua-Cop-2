@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         FOV = normalCam.fieldOfView;
         //Camera.main.enabled = false;
         rb = GetComponent<Rigidbody>();
-
+        GameManager.ins.PlayerCam = normalCam.gameObject;
         weaponParentOrigin = weaponParent.localPosition;
     }
 

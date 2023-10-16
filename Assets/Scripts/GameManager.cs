@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
     public static GameManager ins;
     public Bullet bullet;
     public List<GunInGame> listGun;
+    public GameObject PlayerCam;
+
     private void Awake()
     {
         ins = this;

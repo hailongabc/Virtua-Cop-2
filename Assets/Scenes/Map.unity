@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44758338, g: 0.4975508, b: 0.5753459, a: 1}
+  m_IndirectSpecularColor: {r: 0.44758385, g: 0.49755144, b: 0.57534695, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -31835,6 +31835,7 @@ MonoBehaviour:
   listGun:
   - {fileID: -8673662271777013499, guid: ff3c2e2091d62d545a3854b61ffe0417, type: 3}
   - {fileID: -8673662271777013499, guid: 216fe95234232f54c804a8d13fdc12a3, type: 3}
+  PlayerCam: {fileID: 0}
 --- !u!4 &1647934275
 Transform:
   m_ObjectHideFlags: 0

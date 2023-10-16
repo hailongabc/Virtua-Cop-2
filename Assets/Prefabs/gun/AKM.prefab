@@ -146,7 +146,6 @@ MonoBehaviour:
   Instensity: 1
   Smooth: 20
   isPickUp: 0
-  PointBullet: {fileID: 4052982391302099394}
 --- !u!114 &-8673662271777013499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,6 +161,13 @@ MonoBehaviour:
   guntype: 1
   CurrentAmmo: 0
   AmmoLeft: 0
+  PointBullet: {fileID: 4052982391302099394}
+  IsReadyFire: 0
+  AddBulletSpread: 1
+  BulletSpreadVariance: {x: 0.1, y: 0.1, z: 0.1}
+  ParticleShoot: {fileID: 8400503251151183238}
+  ImpactParticleSystem: {fileID: 0}
+  BulletTrail: {fileID: 0}
   DataGun: {fileID: 11400000, guid: 45e988a04be37f846b3d4958bc629129, type: 2}
 --- !u!65 &5902467608891978701
 BoxCollider:
@@ -500,6 +506,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
+--- !u!198 &8400503251151183238 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 198234346748616026, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
+  m_PrefabInstance: {fileID: 8526668849559027932}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8528576808010771656 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4300533007854612, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}

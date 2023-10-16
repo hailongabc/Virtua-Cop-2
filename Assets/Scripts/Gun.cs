@@ -12,11 +12,8 @@ public class Gun : ScriptableObject
     public float damage;
     public GameObject prefabs;
     public float AimSpeed;
-  
     public float TotalBullet;
     public float MaxBullet;
     public float TimeReload;
   
-    
-
 }

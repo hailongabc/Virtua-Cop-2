@@ -14,7 +14,6 @@ public class Weapon : MonoBehaviourPunCallbacks
 
     public GameObject BulleHolePf;
     public LayerMask canBeShot;
-
     private float currentCoolDown;
     bool isShot = false;
     private void Awake()
@@ -26,11 +25,6 @@ public class Weapon : MonoBehaviourPunCallbacks
     void Update()
     {
         if (!photonView.IsMine) return;
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            Debug.Log("aa");
-            Equip(0);
-        }
         if (CurrentWeapon != null)
         {
             aim(Input.GetMouseButton(1));
@@ -41,21 +35,21 @@ public class Weapon : MonoBehaviourPunCallbacks
                 {
                     if (CurrentWeapon.GetComponent<GunInGame>().guntype == GameManager.ins.listGun[i].guntype)
                     {
-                        Debug.Log(transform.position + "asd");
                         GameObject gun = Instantiate(GameManager.ins.listGun[i].gameObject, DropPoint.position, DropPoint.rotation);
                         gun.GetComponent<GunInGame>().Init(CurrentWeapon.GetComponent<GunInGame>().CurrentAmmo, CurrentWeapon.GetComponent<GunInGame>().AmmoLeft);
                         gun.GetComponent<Sway>().isPickUp = false;
                         gun.GetComponent<BoxCollider>().enabled = true;
+                        PlayerUI.ins.txtBullet.text = "0/0";
                     }
                 }
                 Destroy(CurrentWeapon);
+                CurrentWeapon = null;
             }
             if (Input.GetMouseButton(0))
             {
                 if (CurrentWeapon.GetComponent<GunInGame>().CheckBullet())
                 {
 
-                    Debug.Log("count");
                     if (!isShot)
                     {
                         StartCoroutine(Shoot());
@@ -67,8 +61,10 @@ public class Weapon : MonoBehaviourPunCallbacks
                     ReloadBullet();
                 }
             }
-
+            if(CurrentWeapon != null)
+            {
             CurrentWeapon.transform.localPosition = Vector3.Lerp(CurrentWeapon.transform.localPosition, Vector3.zero, Time.deltaTime * 10);
+            }
             if (currentCoolDown > 0)
             {
                 currentCoolDown -= Time.deltaTime;
@@ -80,7 +76,23 @@ public class Weapon : MonoBehaviourPunCallbacks
             }
         }
     }
+    void PickUpGun(string GunType)
+    {
+        if (CurrentWeapon != null) return;
+        for (int i = 0; i < GameManager.ins.listGun.Count; i++)
+        {
+            if (GameManager.ins.listGun[i].guntype.ToString() == GunType)
+            {
+                GameObject gun = Instantiate(GameManager.ins.listGun[i].gameObject, WeaponParent.position, WeaponParent.rotation, WeaponParent);
+                gun.transform.localPosition = Vector3.zero;
+                gun.transform.localEulerAngles = Vector3.zero;
+                gun.GetComponent<Sway>().isPickUp = true;
+                gun.GetComponent<BoxCollider>().enabled = false;
+                CurrentWeapon = gun;
+            }
+        }
 
+    }
     void Equip(int index)
     {
         if (CurrentWeapon != null)
@@ -94,6 +106,7 @@ public class Weapon : MonoBehaviourPunCallbacks
         newWeapon.transform.localEulerAngles = Vector3.zero;
         newWeapon.GetComponent<Sway>().isPickUp = true;
         CurrentWeapon = newWeapon;
+        newWeapon.GetComponent<BoxCollider>().enabled = false;
     }
     void aim(bool p_aim)
     {
@@ -114,7 +127,7 @@ public class Weapon : MonoBehaviourPunCallbacks
         isShot = true;
         yield return new WaitForSeconds(LoadOut[this_index].FireRate);
         Transform t_cam = transform.Find("PlayerCamera");
-        RaycastHit hit = new RaycastHit();
+        //RaycastHit hit = new RaycastHit();
         GameObject bullet = Instantiate(GameManager.ins.bullet.gameObject, CurrentWeapon.GetComponent<Sway>().PointBullet.position, t_cam.rotation);
         bullet.GetComponent<Bullet>().damage = LoadOut[this_index].damage;
         CurrentWeapon.GetComponent<GunInGame>().DecreaseBullet();
@@ -141,9 +154,7 @@ public class Weapon : MonoBehaviourPunCallbacks
 
     void ReloadBullet()
     {
-
         StartCoroutine(CurrentWeapon.GetComponent<GunInGame>().ReloadBullet());
-
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -152,13 +163,14 @@ public class Weapon : MonoBehaviourPunCallbacks
             switch (other.GetComponent<GunInGame>().guntype)
             {
                 case GunType.pistol:
-                    other.GetComponent<BoxCollider>().enabled = false;
-                    Equip(0);
+                    if (CurrentWeapon != null) return;
+                    PickUpGun(GunType.pistol.ToString());
                     Destroy(other.gameObject);
-                    Debug.Log("pistol");
                     break;
                 case GunType.akm:
-
+                    if (CurrentWeapon != null) return;
+                    PickUpGun(GunType.akm.ToString());
+                    Destroy(other.gameObject);
                     break;
             }
 

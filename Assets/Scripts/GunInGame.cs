@@ -16,7 +16,7 @@ public class GunInGame : MonoBehaviour
     {
         CurrentAmmo = DataGun.TotalBullet;
         AmmoLeft = DataGun.MaxBullet;
-        PlayerUI.ins.txtBullet.text = CurrentAmmo + "/" + AmmoLeft;
+        //PlayerUI.ins.txtBullet.text = CurrentAmmo + "/" + AmmoLeft;
 
     }
     public void Init(float CurrentAmmo, float AmmoLeft)

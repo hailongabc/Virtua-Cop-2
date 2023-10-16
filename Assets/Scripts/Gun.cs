@@ -12,8 +12,20 @@ public class Gun : ScriptableObject
     public float damage;
     public GameObject prefabs;
     public float AimSpeed;
-    public Transform PointBullet;
+  
     public float TotalBullet;
     public float MaxBullet;
     public float TimeReload;
+    [SerializeField]
+    private bool AddBulletSpread = true;
+    [SerializeField]
+    private Vector3 BulletSpreadVariance = new Vector3(0.1f, 0.1f, 0.1f);
+    [SerializeField]
+    private ParticleSystem ShootingSystem;
+    [SerializeField]
+    private Transform ImpactParticleSystem;
+    [SerializeField]
+    private TrailRenderer BulletTrail;
+    
+
 }

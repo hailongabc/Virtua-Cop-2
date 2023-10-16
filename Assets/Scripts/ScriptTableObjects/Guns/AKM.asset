@@ -20,3 +20,6 @@ MonoBehaviour:
   prefabs: {fileID: 5036366275854860706, guid: ff3c2e2091d62d545a3854b61ffe0417, type: 3}
   AimSpeed: 20
   PointBullet: {fileID: 0}
+  TotalBullet: 30
+  MaxBullet: 90
+  TimeReload: 0

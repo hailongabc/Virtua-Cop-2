@@ -132,6 +132,7 @@ public class Weapon : MonoBehaviourPunCallbacks
         bullet.GetComponent<Bullet>().damage = LoadOut[this_index].damage;
         CurrentWeapon.GetComponent<GunInGame>().DecreaseBullet();
 
+        
 
         /* if (Physics.Raycast(t_cam.position, t_cam.forward, out hit, 1000f, canBeShot))
          {

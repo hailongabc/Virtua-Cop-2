@@ -10,7 +10,16 @@ public class GunInGame : MonoBehaviour
     public GunType guntype;
     [HideInInspector] public float CurrentAmmo;
     [HideInInspector] public float AmmoLeft;
-    
+    [SerializeField]
+    private bool AddBulletSpread = true;
+    [SerializeField]
+    private Vector3 BulletSpreadVariance = new Vector3(0.1f, 0.1f, 0.1f);
+    [SerializeField]
+    private ParticleSystem ShootingSystem;
+    [SerializeField]
+    private Transform ImpactParticleSystem;
+    [SerializeField]
+    private TrailRenderer BulletTrail;
     public Gun DataGun;
     void Start()
     {
@@ -58,4 +67,6 @@ public class GunInGame : MonoBehaviour
         }
         PlayerUI.ins.txtBullet.text = CurrentAmmo + "/" + AmmoLeft;
     }
+
+  
 }

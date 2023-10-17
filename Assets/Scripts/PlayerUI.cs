@@ -13,10 +13,4 @@ public class PlayerUI : MonoBehaviour
         ins = this;
     }
 
-
-
-    public void DecreaseHP()
-    {
-
-    }
 }

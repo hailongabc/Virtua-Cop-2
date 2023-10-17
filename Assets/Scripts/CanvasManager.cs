@@ -10,13 +10,4 @@ public class CanvasManager : MonoBehaviour
     {
         ins = this;
     }
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
 }

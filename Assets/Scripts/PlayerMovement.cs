@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     public float jumpForce;
     public Transform GroundDetector;
     public LayerMask Ground;
+    public LayerMask Wood;
 
     public Transform weaponParent;
     private Vector3 targetShakePosition;
@@ -41,7 +42,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         bool jump = Input.GetKeyDown(KeyCode.Space);
 
         bool isGround = Physics.Raycast(GroundDetector.position, Vector3.down, 0.1f, Ground);
-        bool isJumping = jump & isGround;
+        bool isWood = Physics.Raycast(GroundDetector.position, Vector3.down, 0.1f, Wood);
+        bool isJumping = jump & isGround || jump & isWood;
         if (isJumping)
         {
             rb.AddForce(Vector3.up * jumpForce);

@@ -32,22 +32,7 @@ public class Weapon : MonoBehaviourPunCallbacks
 
             if (Input.GetKeyDown(KeyCode.G))
             {
-                for (int i = 0; i < GameManager.ins.listGun.Count; i++)
-                {
-                    if (CurrentWeapon.GetComponent<GunInGame>().guntype == GameManager.ins.listGun[i].guntype)
-                    {
-                        GameObject gun = Instantiate(GameManager.ins.listGun[i].gameObject, DropPoint.position, DropPoint.rotation);
-                        gun.GetComponent<GunInGame>().Init(CurrentWeapon.GetComponent<GunInGame>().CurrentAmmo, CurrentWeapon.GetComponent<GunInGame>().AmmoLeft);
-                        Debug.Log("current " + gun.GetComponent<GunInGame>().CurrentAmmo);
-                        Debug.Log("left " + gun.GetComponent<GunInGame>().AmmoLeft);
-                        gun.GetComponent<Sway>().isPickUp = false;
-                        gun.GetComponent<Rigidbody>().useGravity = true;
-                        gun.GetComponent<BoxCollider>().enabled = true;
-                        PlayerUI.ins.txtBullet.gameObject.SetActive(false);
-                    }
-                }
-                Destroy(CurrentWeapon);
-                CurrentWeapon = null;
+                DropGun();
             }
             if (Input.GetMouseButtonDown(0))
             {
@@ -89,6 +74,26 @@ public class Weapon : MonoBehaviourPunCallbacks
                 ReloadBullet();
             }
         }
+    }
+
+    void DropGun()
+    {
+        for (int i = 0; i < GameManager.ins.listGun.Count; i++)
+        {
+            if (CurrentWeapon.GetComponent<GunInGame>().guntype == GameManager.ins.listGun[i].guntype)
+            {
+                GameObject gun = Instantiate(GameManager.ins.listGun[i].gameObject, DropPoint.position, DropPoint.rotation);
+                gun.GetComponent<GunInGame>().Init(CurrentWeapon.GetComponent<GunInGame>().CurrentAmmo, CurrentWeapon.GetComponent<GunInGame>().AmmoLeft);
+                Debug.Log("current " + gun.GetComponent<GunInGame>().CurrentAmmo);
+                Debug.Log("left " + gun.GetComponent<GunInGame>().AmmoLeft);
+                gun.GetComponent<Sway>().isPickUp = false;
+                gun.GetComponent<Rigidbody>().useGravity = true;
+                gun.GetComponent<BoxCollider>().enabled = true;
+                PlayerUI.ins.txtBullet.gameObject.SetActive(false);
+            }
+        }
+        Destroy(CurrentWeapon);
+        CurrentWeapon = null;
     }
     void PickUpGun(GunType gunType, GunInGame dropGun)
     {

@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         //Camera.main.enabled = false;
         rb = GetComponent<Rigidbody>();
         GameManager.ins.PlayerCam = normalCam.gameObject;
+        GameManager.ins.Player = gameObject;
         weaponParentOrigin = weaponParent.localPosition;
     }
 

@@ -2,33 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestHuman1 : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     public float currentHP = 100;
-    void Start()
-    {
-        PlayerUI.ins.txtHP.text = currentHP.ToString();
-    }
 
-    void Update()
+    private void OnEnable()
     {
-        
+        GameManager.ins.listEnemy.Add(this);
     }
-   
     public void getShotInHead(float damage)
     {
         currentHP = currentHP - damage * 1.2f;
         Debug.Log("head" + currentHP);
-        PlayerUI.ins.txtHP.text = currentHP.ToString();
-
         Dead();
+
     }
 
     public void getShotInBody(float damage)
     {
         currentHP = currentHP - damage;
         Debug.Log("body" + currentHP);
-        PlayerUI.ins.txtHP.text = currentHP.ToString();
         Dead();
     }
 
@@ -36,6 +29,7 @@ public class TestHuman1 : MonoBehaviour
     {
         if(currentHP <= 0)
         {
+            GameManager.ins.listEnemy.Remove(this);
             Destroy(gameObject);
         }
     }

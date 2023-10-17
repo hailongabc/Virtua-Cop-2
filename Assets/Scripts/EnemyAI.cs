@@ -69,7 +69,7 @@ public class EnemyAI : MonoBehaviour
     private void ChasePlayer()
     {
         Debug.Log("chase");
-        agent.SetDestination(player.position);
+        agent.SetDestination(GameManager.ins.Player.transform.position);
     }
 
     private void AttackPlayer()
@@ -82,29 +82,15 @@ public class EnemyAI : MonoBehaviour
         if (!alreadyAttacked)
         {
             //Attack code here
-            Debug.Log("attach");
-            if (CurrentWeapon != null)
-            {
-                if (CurrentWeapon.GetComponent<GunInGame>().CheckBullet())
-                {
-
-                    CurrentWeapon.GetComponent<GunInGame>().Shoot2();
-                }
-                else
-                {
-                    CurrentWeapon.GetComponent<GunInGame>().Shoot2();
-                }
-            }
-            else
-            {
-
-            }
+            GameManager.ins.Player.GetComponent<TestHuman1>().getShotInBody(5);
             //
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
 
     }
+
+
     void ResetAttack()
     {
         alreadyAttacked = false;

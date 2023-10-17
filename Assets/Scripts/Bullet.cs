@@ -23,12 +23,12 @@ public class Bullet : MonoBehaviour
     {
         if (other.CompareTag("head"))
         {
-            other.GetComponentInParent<TestHuman1>().getShotInHead(damage);
+            other.GetComponentInParent<Enemy>().getShotInHead(damage);
             Destroy(gameObject);
         }
         else if(other.CompareTag("body"))
         {
-            other.GetComponentInParent<TestHuman1>().getShotInBody(damage);
+            other.GetComponentInParent<Enemy>().getShotInBody(damage);
             Destroy(gameObject);
         }
         else if(other.CompareTag("wall"))

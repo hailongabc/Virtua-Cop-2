@@ -15,7 +15,8 @@ public class Weapon : MonoBehaviourPunCallbacks
     public GameObject BulleHolePf;
     public LayerMask canBeShot;
     private float currentCoolDown;
-    bool isShot = false;
+    bool isTap = false;
+    bool isPistol = false;
     private void Awake()
     {
         ins = this;
@@ -27,7 +28,7 @@ public class Weapon : MonoBehaviourPunCallbacks
         if (!photonView.IsMine) return;
         if (CurrentWeapon != null)
         {
-            aim(Input.GetMouseButton(1));
+           // aim(Input.GetMouseButton(1));
 
             if (Input.GetKeyDown(KeyCode.G))
             {
@@ -48,17 +49,37 @@ public class Weapon : MonoBehaviourPunCallbacks
                 Destroy(CurrentWeapon);
                 CurrentWeapon = null;
             }
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (isPistol)
+                {
+                    isTap = true;
+                }
+            }
             if (Input.GetMouseButton(0))
             {
                 if (CurrentWeapon.GetComponent<GunInGame>().CheckBullet())
                 {
-                  StartCoroutine(CurrentWeapon.GetComponent<GunInGame>().Shoot());
+                    if (isPistol)
+                    {
+                        if (isTap)
+                        {
+                            isTap = false;
+                            CurrentWeapon.GetComponent<GunInGame>().Shoot2();
+                        }
+                    }
+                    else
+                    {
+                        CurrentWeapon.GetComponent<GunInGame>().Shoot2();
+                    }
+                    //StartCoroutine(CurrentWeapon.GetComponent<GunInGame>().Shoot());
                 }
                 else
                 {
                     ReloadBullet();
                 }
             }
+
             if (CurrentWeapon != null)
             {
                 CurrentWeapon.transform.localPosition = Vector3.Lerp(CurrentWeapon.transform.localPosition, Vector3.zero, Time.deltaTime * 10);
@@ -117,36 +138,6 @@ public class Weapon : MonoBehaviourPunCallbacks
             anchor.position = Vector3.Lerp(anchor.position, Status_hip.position, Time.deltaTime * LoadOut[this_index].AimSpeed);
         }
     }
- //   IEnumerator Shoot()
- //   {
- //       isShot = true;
- //       yield return new WaitForSeconds(LoadOut[this_index].FireRate);
- //       Transform t_cam = transform.Find("PlayerCamera");
- //       //RaycastHit hit = new RaycastHit();
- //       GameObject bullet = Instantiate(GameManager.ins.bullet.gameObject, CurrentWeapon.GetComponent<Sway>().PointBullet.position, t_cam.rotation);
- //       bullet.GetComponent<Bullet>().damage = LoadOut[this_index].damage;
- //       CurrentWeapon.GetComponent<GunInGame>().DecreaseBullet();
-
-
-
- //       /* if (Physics.Raycast(t_cam.position, t_cam.forward, out hit, 1000f, canBeShot))
- //        {
- //            GameObject NewHole = Instantiate(BulleHolePf, (hit.point + hit.normal), Quaternion.identity);
-
- //            NewHole.transform.LookAt(hit.point + hit.normal);
-
- //            Destroy(NewHole, 10f);
- //        }
- //*/
- //       //giat len
- //       CurrentWeapon.transform.Rotate(-LoadOut[this_index].Recoil, 0, 0);
-
- //       //giat ve sau
- //       CurrentWeapon.transform.position -= CurrentWeapon.transform.forward * LoadOut[this_index].KickBack;
-
- //       isShot = false;
- //       currentCoolDown = LoadOut[this_index].FireRate;
- //   }
 
     void ReloadBullet()
     {
@@ -161,11 +152,13 @@ public class Weapon : MonoBehaviourPunCallbacks
                 case GunType.pistol:
                     if (CurrentWeapon != null) return;
                     PickUpGun(GunType.pistol, other.GetComponent<GunInGame>());
+                    isPistol = true;
                     Destroy(other.gameObject);
                     break;
                 case GunType.akm:
                     if (CurrentWeapon != null) return;
                     PickUpGun(GunType.akm, other.GetComponent<GunInGame>());
+                    isPistol = false;
                     Destroy(other.gameObject);
                     break;
             }

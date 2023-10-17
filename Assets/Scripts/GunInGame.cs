@@ -8,8 +8,8 @@ public enum GunType
 public class GunInGame : MonoBehaviour
 {
     public GunType guntype;
-     public float CurrentAmmo;
-     public float AmmoLeft;
+    public float CurrentAmmo;
+    public float AmmoLeft;
     public Transform PointBullet;
     public bool IsReadyFire = false;
     [SerializeField]
@@ -19,9 +19,14 @@ public class GunInGame : MonoBehaviour
     [SerializeField]
     private ParticleSystem ParticleShoot;
     [SerializeField]
-    private Transform ImpactParticleSystem;
+    private ParticleSystem ImpactParticleSystem;
     [SerializeField]
     private TrailRenderer BulletTrail;
+    [SerializeField]
+    private LayerMask Mask;
+    [SerializeField]
+    private float ShootDelay = 0.5f;
+    private float LastShootTime;
     public Gun DataGun;
 
     private void Awake()
@@ -30,7 +35,7 @@ public class GunInGame : MonoBehaviour
         AmmoLeft = DataGun.MaxBullet;
     }
 
-   
+
     public void Init(float CurrentAmmo, float AmmoLeft)
     {
         this.CurrentAmmo = CurrentAmmo;
@@ -50,7 +55,7 @@ public class GunInGame : MonoBehaviour
         {
             return true;
         }
-        else 
+        else
         {
             return false;
         }
@@ -60,10 +65,10 @@ public class GunInGame : MonoBehaviour
         yield return new WaitForSeconds(DataGun.TimeReload);
         while (CurrentAmmo < DataGun.TotalBullet)
         {
-            if(AmmoLeft > 0)
+            if (AmmoLeft > 0)
             {
-            CurrentAmmo++;
-            AmmoLeft--;
+                CurrentAmmo++;
+                AmmoLeft--;
             }
             else
             {
@@ -73,10 +78,11 @@ public class GunInGame : MonoBehaviour
         PlayerUI.ins.txtBullet.text = CurrentAmmo + "/" + AmmoLeft;
     }
 
-  public IEnumerator Shoot()
+    public IEnumerator Shoot()
     {
         if (!IsReadyFire)
         {
+            Vector3 direction = GetDirection();
             GameObject bullet = Instantiate(GameManager.ins.bullet.gameObject, PointBullet.position, GameManager.ins.PlayerCam.transform.rotation);
             bullet.GetComponent<Bullet>().damage = DataGun.damage;
             IsReadyFire = true;
@@ -101,8 +107,61 @@ public class GunInGame : MonoBehaviour
             IsReadyFire = false;
         }
         //RaycastHit hit = new RaycastHit();
-
-
-
     }
+
+    public void Shoot2()
+    {
+        if (LastShootTime + ShootDelay < Time.time)
+        {
+            ParticleShoot.Play();
+
+            Vector3 direction = GetDirection();
+
+            if (Physics.Raycast(PointBullet.position, direction, out RaycastHit hit, float.MaxValue, Mask))
+            {
+                TrailRenderer trail = Instantiate(BulletTrail, PointBullet.position, Quaternion.identity);
+                DecreaseBullet();
+
+                StartCoroutine(SpawnTrail(trail, hit));
+                transform.Rotate(-DataGun.Recoil, 0, 0);
+                transform.position -= transform.forward * DataGun.KickBack;
+                LastShootTime = Time.time;
+            }
+        }
+    }
+
+    private Vector3 GetDirection()
+    {
+        Vector3 direction = transform.forward;
+        if (AddBulletSpread)
+        {
+            direction += new Vector3(
+                Random.Range(-BulletSpreadVariance.x, BulletSpreadVariance.x),
+                Random.Range(-BulletSpreadVariance.y, BulletSpreadVariance.y),
+                Random.Range(-BulletSpreadVariance.z, BulletSpreadVariance.z)
+                );
+            direction.Normalize();
+        }
+        return direction;
+    }
+
+    private IEnumerator SpawnTrail(TrailRenderer Trail, RaycastHit Hit)
+    {
+        float time = 0;
+        Vector3 startPosition = Trail.transform.position;
+
+        while (time < 1)
+        {
+            Trail.transform.position = Vector3.Lerp(startPosition, Hit.point, time);
+            time += Time.deltaTime / Trail.time;
+
+            yield return null;
+
+        }
+        Trail.transform.position = Hit.point;
+        Instantiate(ImpactParticleSystem, Hit.point, Quaternion.LookRotation(Hit.normal));
+
+        Destroy(Trail.gameObject, Trail.time);
+    }
+
 }

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1102 &-5323197289488462338
+--- !u!1102 &-3244446172062838673
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
@@ -32,25 +32,13 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ZombieAnimator
+  m_Name: behavier
   serializedVersion: 5
-  m_AnimatorParameters:
-  - m_Name: Idle
-    m_Type: 9
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: Run
-    m_Type: 9
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+  m_AnimatorParameters: []
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
-    m_StateMachine: {fileID: 2297789976255549933}
+    m_StateMachine: {fileID: 6101828362251322157}
     m_Mask: {fileID: 0}
     m_Motions: []
     m_Behaviours: []
@@ -60,7 +48,7 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
---- !u!1107 &2297789976255549933
+--- !u!1107 &6101828362251322157
 AnimatorStateMachine:
   serializedVersion: 6
   m_ObjectHideFlags: 1
@@ -70,11 +58,11 @@ AnimatorStateMachine:
   m_Name: Base Layer
   m_ChildStates:
   - serializedVersion: 1
-    m_State: {fileID: 6893812350828371521}
-    m_Position: {x: 360, y: 80, z: 0}
+    m_State: {fileID: 7798507504884388087}
+    m_Position: {x: 60, y: 340, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -5323197289488462338}
-    m_Position: {x: 439, y: 229, z: 0}
+    m_State: {fileID: -3244446172062838673}
+    m_Position: {x: 330, y: 200, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -84,8 +72,8 @@ AnimatorStateMachine:
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: 6893812350828371521}
---- !u!1102 &6893812350828371521
+  m_DefaultState: {fileID: 7798507504884388087}
+--- !u!1102 &7798507504884388087
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
@@ -93,7 +81,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Run
-  m_Speed: 1.5
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
@@ -105,7 +93,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 1827226128182048838, guid: ac328ecc5659ea945973a8489ff2d4b3, type: 3}
+  m_Motion: {fileID: 7400000, guid: 24f36450d6265214c9aad0cfeda078db, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

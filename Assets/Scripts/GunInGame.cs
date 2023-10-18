@@ -147,7 +147,7 @@ public class GunInGame : MonoBehaviour
             if (Physics.Raycast(PointBullet.position, direction, out RaycastHit hit, float.MaxValue, Mask))
             {
                 Debug.Log("khong phai enemy");
-                TrailRenderer trail = Instantiate(BulletTrail, PointBullet.position, Quaternion.identity);
+                TrailRenderer trail = Instantiate(BulletTrail, PointBullet.position, GameManager.ins.PlayerCam.transform.rotation);
                 DecreaseBullet();
 
                 StartCoroutine(SpawnTrail(trail, hit));

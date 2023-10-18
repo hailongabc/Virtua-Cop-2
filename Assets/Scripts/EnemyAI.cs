@@ -11,6 +11,8 @@ public class EnemyAI : MonoBehaviour
 
     public LayerMask whatIsGround, whatIsPlayer;
 
+    public Animator animator;
+
 
     //Patroling
     public Vector3 walkPoint;
@@ -27,7 +29,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Awake()
     {
-       // player = GameObject.Find("First Person Player(Clone)").transform;
+        // player = GameManager.ins.Player.transform;
         agent = GetComponent<NavMeshAgent>();
     }
 
@@ -48,7 +50,7 @@ public class EnemyAI : MonoBehaviour
 
         if (walkPointSet)
             agent.SetDestination(walkPoint);
-
+        animator.Play("Run");
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
         //Walkpoint reached
@@ -68,6 +70,7 @@ public class EnemyAI : MonoBehaviour
     private void ChasePlayer()
     {
         if (GetComponent<Enemy>().isDead) return;
+        animator.Play("Run");
 
         agent.SetDestination(GameManager.ins.Player.transform.position);
     }
@@ -78,12 +81,12 @@ public class EnemyAI : MonoBehaviour
 
         //Make sure enemy doesn't move
         agent.SetDestination(transform.position);
-
-        transform.LookAt(player);
+        //transform.LookAt(player);
 
         if (!alreadyAttacked)
         {
             //Attack code here
+            animator.Play("bite");
             GameManager.ins.Player.GetComponent<TestHuman1>().getShotInBody(5);
             //
             alreadyAttacked = true;
@@ -105,4 +108,6 @@ public class EnemyAI : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightRange);
     }
+
+
 }

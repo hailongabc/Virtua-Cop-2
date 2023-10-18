@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class Weapon : MonoBehaviourPunCallbacks
+public class Weapon : MonoBehaviour
 {
     public static Weapon ins;
     public Gun[] LoadOut;
@@ -25,10 +25,10 @@ public class Weapon : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if (!photonView.IsMine) return;
+        // if (!photonView.IsMine) return;
         if (CurrentWeapon != null)
         {
-           // aim(Input.GetMouseButton(1));
+            // aim(Input.GetMouseButton(1));
 
             if (Input.GetKeyDown(KeyCode.G))
             {
@@ -163,6 +163,12 @@ public class Weapon : MonoBehaviourPunCallbacks
                 case GunType.akm:
                     if (CurrentWeapon != null) return;
                     PickUpGun(GunType.akm, other.GetComponent<GunInGame>());
+                    isPistol = false;
+                    Destroy(other.gameObject);
+                    break;
+                case GunType.yellowGun:
+                    if (CurrentWeapon != null) return;
+                    PickUpGun(GunType.yellowGun, other.GetComponent<GunInGame>());
                     isPistol = false;
                     Destroy(other.gameObject);
                     break;

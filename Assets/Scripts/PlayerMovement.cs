@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class PlayerMovement : MonoBehaviourPunCallbacks
+public class PlayerMovement : MonoBehaviour
 {
     public Camera normalCam;
     public float SprintModifier;
@@ -30,13 +30,14 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         //Camera.main.enabled = false;
         rb = GetComponent<Rigidbody>();
         GameManager.ins.PlayerCam = normalCam.gameObject;
+        GameManager.ins.camHealth = normalCam;
         GameManager.ins.Player = gameObject;
         weaponParentOrigin = weaponParent.localPosition;
     }
 
     private void Update()
     {
-        if (!photonView.IsMine) return;
+       // if (!photonView.IsMine) return;
         float h_move = Input.GetAxisRaw("Horizontal");
         float v_move = Input.GetAxisRaw("Vertical");
         bool sprint = Input.GetKey(KeyCode.LeftShift);
@@ -71,7 +72,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     }
     private void FixedUpdate()
     {
-        if (!photonView.IsMine) return;
+       // if (!photonView.IsMine) return;
         float h_move = Input.GetAxisRaw("Horizontal");
         float v_move = Input.GetAxisRaw("Vertical");
         bool sprint = Input.GetKey(KeyCode.LeftShift);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public enum GunType
 {
-    pistol, akm
+    pistol, akm, yellowGun
 }
 public class GunInGame : MonoBehaviour
 {

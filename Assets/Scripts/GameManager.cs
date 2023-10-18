@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public List<Enemy> listEnemy;
     public List<Transform> listEnemySpawn;
     public GameObject Enemy;
+    public Camera camHealth;
 
     private void Awake()
     {

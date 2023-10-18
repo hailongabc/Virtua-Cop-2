@@ -44,7 +44,6 @@ public class EnemyAI : MonoBehaviour
     }
     private void Patroling()
     {
-        Debug.Log("patrol");
         if (!walkPointSet) SearchWalkPoint();
 
         if (walkPointSet)
@@ -68,7 +67,6 @@ public class EnemyAI : MonoBehaviour
     }
     private void ChasePlayer()
     {
-        Debug.Log("chase");
         agent.SetDestination(GameManager.ins.Player.transform.position);
     }
 

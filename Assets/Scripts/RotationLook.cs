@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class RotationLook : MonoBehaviourPunCallbacks
+public class RotationLook : MonoBehaviour
 {
     public static bool CursorLocked = true;
     public Transform player;
@@ -17,13 +17,13 @@ public class RotationLook : MonoBehaviourPunCallbacks
     void Start()
     {
         //CanvasManager.ins.canvas.worldCamera = CamParents;
-        CamParents.gameObject.SetActive(photonView.IsMine);
+        CamParents.gameObject.SetActive(true);
         camCenter = cam.localRotation;
     }
 
     void LateUpdate()
     {
-        if (!photonView.IsMine) return;
+        //if (!photonView.IsMine) return;
         setY();
         setX();
         UpdateCursorLock();

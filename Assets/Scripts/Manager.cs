@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 
-public class Manager : MonoBehaviourPunCallbacks
+public class Manager : MonoBehaviour
 {
-    public string PlayerPf;
+    public GameObject PlayerPf;
     public Transform SpawnPoint;
 
     private void Start()
@@ -13,8 +12,11 @@ public class Manager : MonoBehaviourPunCallbacks
         Spawn();
     }
 
-    public void Spawn()
+    void Spawn()
     {
-        PhotonNetwork.Instantiate(PlayerPf, SpawnPoint.position, SpawnPoint.rotation);
+        Instantiate(PlayerPf, SpawnPoint.position, SpawnPoint.rotation);
+        //PhotonNetwork.Instantiate(PlayerPf, SpawnPoint.position, SpawnPoint.rotation);
     }
+
+
 }

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 public enum GunType
@@ -21,14 +21,20 @@ public class GunInGame : MonoBehaviour
     [SerializeField]
     private ParticleSystem ImpactParticleSystem;
     [SerializeField]
+    private ParticleSystem ImpactParticleSystemEnemy;
+    [SerializeField]
     private TrailRenderer BulletTrail;
     [SerializeField]
     private LayerMask Mask;
     [SerializeField]
+    private LayerMask MaskEnemy;
+    [SerializeField]
     private float ShootDelay = 0.5f;
     private float LastShootTime;
     public Gun DataGun;
-
+    public bool isOutOfBullet = false;
+    public bool isReload = false;
+    private float value = 0;
     private void Awake()
     {
         CurrentAmmo = DataGun.TotalBullet;
@@ -62,7 +68,13 @@ public class GunInGame : MonoBehaviour
     }
     public IEnumerator ReloadBullet()
     {
+        StartCoroutine(ChangeValueSlider());
+        PlayerUI.ins.Reloading.gameObject.SetActive(true);
+        //PlayerUI.ins.Reloading.value = 
+        isOutOfBullet = true;
+        isReload = true;
         yield return new WaitForSeconds(DataGun.TimeReload);
+        PlayerUI.ins.Reloading.gameObject.SetActive(false);
         while (CurrentAmmo < DataGun.TotalBullet)
         {
             if (AmmoLeft > 0)
@@ -76,8 +88,23 @@ public class GunInGame : MonoBehaviour
             }
         }
         PlayerUI.ins.txtBullet.text = CurrentAmmo + "/" + AmmoLeft;
+        isOutOfBullet = false;
+        isReload = false;
     }
+    public IEnumerator ChangeValueSlider()
+    {
+        float elapsedTime = 0;
 
+        while (elapsedTime < DataGun.TimeReload)
+        {
+            value = Mathf.Lerp(0, 1, elapsedTime / DataGun.TimeReload); // Sử dụng hàm Mathf.Lerp để thay đổi giá trị dần dần
+            elapsedTime += Time.deltaTime;
+            PlayerUI.ins.Reloading.value = value;
+            yield return null;
+        }
+
+        value = 1; // Đảm bảo giá trị là 1 sau khi kết thúc
+    }
     public IEnumerator Shoot()
     {
         if (!IsReadyFire)
@@ -119,10 +146,23 @@ public class GunInGame : MonoBehaviour
 
             if (Physics.Raycast(PointBullet.position, direction, out RaycastHit hit, float.MaxValue, Mask))
             {
+                Debug.Log("khong phai enemy");
                 TrailRenderer trail = Instantiate(BulletTrail, PointBullet.position, Quaternion.identity);
                 DecreaseBullet();
 
                 StartCoroutine(SpawnTrail(trail, hit));
+                transform.Rotate(-DataGun.Recoil, 0, 0);
+                transform.position -= transform.forward * DataGun.KickBack;
+                LastShootTime = Time.time;
+            }
+
+            if (Physics.Raycast(PointBullet.position, direction, out RaycastHit hit1, float.MaxValue, MaskEnemy))
+            {
+                Debug.Log("enemy");
+                TrailRenderer trail = Instantiate(BulletTrail, PointBullet.position, Quaternion.identity);
+                DecreaseBullet();
+
+                StartCoroutine(SpawnTrailEnemy(trail, hit1));
                 transform.Rotate(-DataGun.Recoil, 0, 0);
                 transform.position -= transform.forward * DataGun.KickBack;
                 LastShootTime = Time.time;
@@ -160,6 +200,25 @@ public class GunInGame : MonoBehaviour
         }
         Trail.transform.position = Hit.point;
         Instantiate(ImpactParticleSystem, Hit.point, Quaternion.LookRotation(Hit.normal));
+
+        Destroy(Trail.gameObject, Trail.time);
+    }
+
+    private IEnumerator SpawnTrailEnemy(TrailRenderer Trail, RaycastHit Hit)
+    {
+        float time = 0;
+        Vector3 startPosition = Trail.transform.position;
+
+        while (time < 1)
+        {
+            Trail.transform.position = Vector3.Lerp(startPosition, Hit.point, time);
+            time += Time.deltaTime / Trail.time;
+
+            yield return null;
+
+        }
+        Trail.transform.position = Hit.point;
+        Instantiate(ImpactParticleSystemEnemy, Hit.point, Quaternion.LookRotation(Hit.normal));
 
         Destroy(Trail.gameObject, Trail.time);
     }

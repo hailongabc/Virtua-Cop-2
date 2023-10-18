@@ -57,12 +57,18 @@ MonoBehaviour:
   BulletSpreadVariance: {x: 0.1, y: 0.1, z: 0.1}
   ParticleShoot: {fileID: 727628907520538028}
   ImpactParticleSystem: {fileID: 4825009945901506006, guid: bd82991f5f40bb742beb28426564a176, type: 3}
+  ImpactParticleSystemEnemy: {fileID: 4574042252229201974, guid: 11cbffd078b6d5449b0445fda7f930dd, type: 3}
   BulletTrail: {fileID: 24452249824760339, guid: fe83675e219be6b4382abda47d9a5723, type: 3}
   Mask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 321
+  MaskEnemy:
+    serializedVersion: 2
+    m_Bits: 512
   ShootDelay: 0.1
   DataGun: {fileID: 11400000, guid: 696ff6768c04ba54abe2b92e6dd1dbdd, type: 2}
+  isOutOfBullet: 0
+  isReload: 0
 --- !u!114 &6577327705097629648
 MonoBehaviour:
   m_ObjectHideFlags: 0

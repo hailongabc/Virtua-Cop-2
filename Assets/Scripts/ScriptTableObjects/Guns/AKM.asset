@@ -21,4 +21,4 @@ MonoBehaviour:
   AimSpeed: 20
   TotalBullet: 30
   MaxBullet: 90
-  TimeReload: 3
+  TimeReload: 2

@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     public float currentHP = 100;
     public float maxHP;
     private Camera cam;
+    public bool isDead;
     [SerializeField] private Image healthBarSprite;
     [SerializeField] private GameObject healthBar;
     private float target = 1;
@@ -47,6 +48,7 @@ public class Enemy : MonoBehaviour
         if(currentHP <= 0)
         {
             GameManager.ins.listEnemy.Remove(this);
+            isDead = true;
             Destroy(gameObject);
         }
     }

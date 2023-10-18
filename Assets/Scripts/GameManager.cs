@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public GameObject Enemy;
     public Camera camHealth;
 
+
     private void Awake()
     {
         ins = this;

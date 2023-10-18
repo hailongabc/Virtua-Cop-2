@@ -347,6 +347,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: First Person Player Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 4561367205746203769, guid: c66affa5c01d38b4c9cb5c44974dcc05, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.056
+      objectReference: {fileID: 0}
     - target: {fileID: 5500912706862029344, guid: c66affa5c01d38b4c9cb5c44974dcc05, type: 3}
       propertyPath: m_IsActive
       value: 0

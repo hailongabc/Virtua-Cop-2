@@ -11,7 +11,6 @@ public class EnemyAI : MonoBehaviour
 
     public LayerMask whatIsGround, whatIsPlayer;
 
-    [SerializeField] private GameObject CurrentWeapon;
 
     //Patroling
     public Vector3 walkPoint;
@@ -44,6 +43,7 @@ public class EnemyAI : MonoBehaviour
     }
     private void Patroling()
     {
+        if (GetComponent<Enemy>().isDead) return;
         if (!walkPointSet) SearchWalkPoint();
 
         if (walkPointSet)
@@ -67,11 +67,15 @@ public class EnemyAI : MonoBehaviour
     }
     private void ChasePlayer()
     {
+        if (GetComponent<Enemy>().isDead) return;
+
         agent.SetDestination(GameManager.ins.Player.transform.position);
     }
 
     private void AttackPlayer()
     {
+        if (GetComponent<Enemy>().isDead) return;
+
         //Make sure enemy doesn't move
         agent.SetDestination(transform.position);
 

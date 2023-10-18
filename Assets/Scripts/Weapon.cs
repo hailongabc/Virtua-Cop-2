@@ -5,7 +5,6 @@ using Photon.Pun;
 
 public class Weapon : MonoBehaviour
 {
-    public static Weapon ins;
     public Gun[] LoadOut;
     public Transform WeaponParent;
     public Transform DropPoint;
@@ -19,7 +18,6 @@ public class Weapon : MonoBehaviour
     bool isPistol = false;
     private void Awake()
     {
-        ins = this;
     }
 
 
@@ -43,25 +41,28 @@ public class Weapon : MonoBehaviour
             }
             if (Input.GetMouseButton(0))
             {
-                if (CurrentWeapon.GetComponent<GunInGame>().CheckBullet())
+                if (!CurrentWeapon.GetComponent<GunInGame>().isOutOfBullet)
                 {
-                    if (isPistol)
+                    if (CurrentWeapon.GetComponent<GunInGame>().CheckBullet())
                     {
-                        if (isTap)
+                        if (isPistol)
                         {
-                            isTap = false;
+                            if (isTap)
+                            {
+                                isTap = false;
+                                CurrentWeapon.GetComponent<GunInGame>().Shoot2();
+                            }
+                        }
+                        else
+                        {
                             CurrentWeapon.GetComponent<GunInGame>().Shoot2();
                         }
+                        //StartCoroutine(CurrentWeapon.GetComponent<GunInGame>().Shoot());
                     }
                     else
                     {
-                        CurrentWeapon.GetComponent<GunInGame>().Shoot2();
+                        ReloadBullet();
                     }
-                    //StartCoroutine(CurrentWeapon.GetComponent<GunInGame>().Shoot());
-                }
-                else
-                {
-                    ReloadBullet();
                 }
             }
 
@@ -71,7 +72,10 @@ public class Weapon : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.R))
             {
-                ReloadBullet();
+                if (!CurrentWeapon.GetComponent<GunInGame>().isReload)
+                {
+                    ReloadBullet();
+                }
             }
         }
     }
@@ -146,7 +150,8 @@ public class Weapon : MonoBehaviour
 
     void ReloadBullet()
     {
-        StartCoroutine(CurrentWeapon.GetComponent<GunInGame>().ReloadBullet());
+        if (CurrentWeapon.GetComponent<GunInGame>().AmmoLeft > 0)
+            StartCoroutine(CurrentWeapon.GetComponent<GunInGame>().ReloadBullet());
     }
     private void OnTriggerEnter(Collider other)
     {

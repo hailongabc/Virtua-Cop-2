@@ -39499,6 +39499,7 @@ MonoBehaviour:
   main_cam: {fileID: 963194227}
   playerUI: {fileID: 1240476944}
   isPlayerDead: 0
+  isUpdate: 0
 --- !u!4 &1647934275
 Transform:
   m_ObjectHideFlags: 0

@@ -54,7 +54,6 @@ public class GameManager : MonoBehaviour
                         Destroy(listEnemySpawn[i].GetChild(0).gameObject);
                     }
                 }
-                isUpdate = true;
             }
 
         }

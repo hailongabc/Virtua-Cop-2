@@ -13,6 +13,10 @@ public class GameManager : MonoBehaviour
     public List<Transform> listEnemySpawn;
     public GameObject Enemy;
     public Camera camHealth;
+    public Camera main_cam;
+    public GameObject playerUI;
+    public bool isPlayerDead = false;
+    public bool isUpdate = false;
 
 
     private void Awake()
@@ -21,7 +25,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -32,9 +36,28 @@ public class GameManager : MonoBehaviour
 
     public void SpawnEnemy()
     {
-        if(listEnemy.Count < 3)
+        if (!isPlayerDead)
         {
-            Instantiate(Enemy, listEnemySpawn[Random.Range(0, listEnemySpawn.Count)]);
+            if (listEnemy.Count < 3)
+            {
+                Instantiate(Enemy, listEnemySpawn[Random.Range(0, listEnemySpawn.Count)]);
+            }
         }
+        else
+        {
+            if (!isUpdate)
+            {
+                for (int i = 0; i < listEnemySpawn.Count; i++)
+                {
+                    if (listEnemySpawn[i].transform.childCount > 0)
+                    {
+                        Destroy(listEnemySpawn[i].GetChild(0).gameObject);
+                    }
+                }
+                isUpdate = true;
+            }
+
+        }
+
     }
 }

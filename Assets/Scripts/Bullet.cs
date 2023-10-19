@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,18 +7,19 @@ public class Bullet : MonoBehaviour
     public float damage;
     public float speed;
     private Rigidbody rb;
-
+    [SerializeField]
+    private LayerMask MaskEnemy;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        rb.velocity = transform.forward * speed;
+      rb.velocity = transform.forward * speed;
     }
-   //protected virtual void OnEnable()
-   // {
-   //     Renderer.enabled = true;
-   //     IsDisabling = false;
-   //    // ConfigureTrail();
-   // }
+    //protected virtual void OnEnable()
+    // {
+    //     Renderer.enabled = true;
+    //     IsDisabling = false;
+    //    // ConfigureTrail();
+    // }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("head"))
@@ -26,21 +27,22 @@ public class Bullet : MonoBehaviour
             other.GetComponentInParent<Enemy>().getShotInHead(damage);
             Destroy(gameObject);
         }
-        else if(other.CompareTag("body"))
+        else if (other.CompareTag("body"))
         {
             other.GetComponentInParent<Enemy>().getShotInBody(damage);
             Destroy(gameObject);
         }
-        else if(other.CompareTag("wall"))
+        else if (other.CompareTag("wall"))
         {
             Destroy(gameObject);
-           // BulletImpact.Play();
+            // BulletImpact.Play();
         }
         //Disable();
-
-
     }
 
+  
+   
+   
     //private void ConfigureTrail()
     //{
     //    if(Trail != null && TrailConfig != null)

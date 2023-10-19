@@ -146,19 +146,16 @@ public class GunInGame : MonoBehaviour
 
             if (Physics.Raycast(PointBullet.position, direction, out RaycastHit hit, float.MaxValue, Mask))
             {
-                Debug.Log("khong phai enemy");
                 TrailRenderer trail = Instantiate(BulletTrail, PointBullet.position, GameManager.ins.PlayerCam.transform.rotation);
                 DecreaseBullet();
-
                 StartCoroutine(SpawnTrail(trail, hit));
                 transform.Rotate(-DataGun.Recoil, 0, 0);
                 transform.position -= transform.forward * DataGun.KickBack;
                 LastShootTime = Time.time;
             }
 
-            if (Physics.Raycast(PointBullet.position, direction, out RaycastHit hit1, float.MaxValue, MaskEnemy))
+            if (Physics.Raycast(PointBullet.position, PointBullet.forward, out RaycastHit hit1, float.MaxValue, MaskEnemy))
             {
-                Debug.Log("enemy");
                 TrailRenderer trail = Instantiate(BulletTrail, PointBullet.position, Quaternion.identity);
                 DecreaseBullet();
 
@@ -192,7 +189,7 @@ public class GunInGame : MonoBehaviour
 
         while (time < 1)
         {
-            Trail.transform.position = Vector3.Lerp(startPosition, Hit.point, time);
+           Trail.transform.position = Vector3.Lerp(startPosition, Hit.point, time);
             time += Time.deltaTime / Trail.time;
 
             yield return null;

@@ -52,25 +52,35 @@ public class RotationLook : MonoBehaviour
 
     void UpdateCursorLock()
     {
-        if (CursorLocked)
+        if (!GameManager.ins.isPlayerDead)
         {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-
-            if (Input.GetKeyDown(KeyCode.LeftControl))
+            if (CursorLocked)
             {
-                CursorLocked = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+
+                if (Input.GetKeyDown(KeyCode.LeftControl))
+                {
+                    CursorLocked = false;
+                }
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+
+                if (Input.GetKeyDown(KeyCode.LeftControl))
+                {
+                    CursorLocked = true;
+                }
             }
         }
         else
         {
             Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-
-            if (Input.GetKeyDown(KeyCode.LeftControl))
-            {
-                CursorLocked = true;
-            }
+            Cursor.visible = false;
+            CursorLocked = false;
         }
+       
     }
 }

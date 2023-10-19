@@ -27,7 +27,11 @@ public class GameManager : MonoBehaviour
     {
 
     }
-
+    public static int HighScore
+    {
+        get => PlayerPrefs.GetInt("HighScore", 0);
+        set => PlayerPrefs.SetInt("HighScore", value);
+    }
     // Update is called once per frame
     void Update()
     {
@@ -38,10 +42,28 @@ public class GameManager : MonoBehaviour
     {
         if (!isPlayerDead)
         {
-            if (listEnemy.Count < 3)
+            if (PlayerUI.ins.Score < 5)
             {
-                Instantiate(Enemy, listEnemySpawn[Random.Range(0, listEnemySpawn.Count)]);
+                if (listEnemy.Count < 3)
+                {
+                    Instantiate(Enemy, listEnemySpawn[Random.Range(0, listEnemySpawn.Count)]);
+                }
             }
+            else if (PlayerUI.ins.Score > 5 && PlayerUI.ins.Score < 10)
+            {
+                if (listEnemy.Count < 5)
+                {
+                    Instantiate(Enemy, listEnemySpawn[Random.Range(0, listEnemySpawn.Count)]);
+                }
+            }
+            else
+            {
+                if (listEnemy.Count < 10)
+                {
+                    Instantiate(Enemy, listEnemySpawn[Random.Range(0, listEnemySpawn.Count)]);
+                }
+            }
+
         }
         else
         {
@@ -59,4 +81,6 @@ public class GameManager : MonoBehaviour
         }
 
     }
+
+    
 }

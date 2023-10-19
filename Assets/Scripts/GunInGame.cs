@@ -153,17 +153,6 @@ public class GunInGame : MonoBehaviour
                 transform.position -= transform.forward * DataGun.KickBack;
                 LastShootTime = Time.time;
             }
-
-            if (Physics.Raycast(PointBullet.position, PointBullet.forward, out RaycastHit hit1, float.MaxValue, MaskEnemy))
-            {
-                TrailRenderer trail = Instantiate(BulletTrail, PointBullet.position, Quaternion.identity);
-                DecreaseBullet();
-
-                StartCoroutine(SpawnTrailEnemy(trail, hit1));
-                transform.Rotate(-DataGun.Recoil, 0, 0);
-                transform.position -= transform.forward * DataGun.KickBack;
-                LastShootTime = Time.time;
-            }
         }
     }
 
@@ -201,23 +190,6 @@ public class GunInGame : MonoBehaviour
         Destroy(Trail.gameObject, Trail.time);
     }
 
-    private IEnumerator SpawnTrailEnemy(TrailRenderer Trail, RaycastHit Hit)
-    {
-        float time = 0;
-        Vector3 startPosition = Trail.transform.position;
-
-        while (time < 1)
-        {
-            Trail.transform.position = Vector3.Lerp(startPosition, Hit.point, time);
-            time += Time.deltaTime / Trail.time;
-
-            yield return null;
-
-        }
-        Trail.transform.position = Hit.point;
-        Instantiate(ImpactParticleSystemEnemy, Hit.point, Quaternion.LookRotation(Hit.normal));
-
-        Destroy(Trail.gameObject, Trail.time);
-    }
+    
 
 }

@@ -45,6 +45,7 @@ public class Enemy : MonoBehaviour
     {
         if (currentHP <= 0)
         {
+            CaculateScore();
             GameManager.ins.listEnemy.Remove(this);
             isDead = true;
             Destroy(gameObject);
@@ -61,5 +62,11 @@ public class Enemy : MonoBehaviour
     public void UpdateHealthBar(float maxHealth, float currentHealh)
     {
         target = currentHealh / maxHealth;
+    }
+
+    public void CaculateScore()
+    {
+        PlayerUI.ins.Score++;
+        PlayerUI.ins.txtScore.text = "Score: " + PlayerUI.ins.Score;
     }
 }
